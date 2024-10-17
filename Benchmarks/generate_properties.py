@@ -9,13 +9,12 @@ import os
 import csv
 import argparse
 from haoyu_gen import main as card_main
-from cheng_gen import main as index_main
+from cheng_gen import main as lindex_main
 from decima_gen import main as decima_main
 from aurora_gen import main as aurora_main
 from pensieve_gen import main as pensieve_main
 from bloom_filter_gen import main as bloom_filter_main
-# Assuming the lindex model would be imported like the others
-from lindex_gen import main as lindex_main
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
