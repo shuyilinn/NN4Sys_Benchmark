@@ -39,7 +39,7 @@ LOG_FILE = './results/log'
 TEST_LOG_FOLDER = './test_results/'
 TRAIN_TRACES = './cooked_traces/'
 NN_MODEL = None
-NN_MODEL = './results/nn_model_ep__big_linear_2000.pth'
+
 max_epoch = 50000
 REWARD_LIST = ['linear', 'log', 'hd']
 REWARD = REWARD_LIST[0]  # We only need linear reward trained model
