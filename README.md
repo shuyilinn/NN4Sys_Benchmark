@@ -9,7 +9,7 @@ which are five tasks that apply neural networks to solve traditional tasks for s
 
 ## Quick Start
 
-Steps 1 and 2 reproduce the generation of specifications. All results from these steps are already included in the repository, so you can skip them and go directly to the [Verify](#3-verify)(#verify) section if you only want to run verification with this benchmark.
+Steps 1 and 2 reproduce the generation of specifications. All results from these steps are already included in the repository, so you can skip them and go directly to the [Verify](#3-verify) section if you only want to run verification with this benchmark.
 
 
 ### 1. Train the Model
