@@ -5,33 +5,47 @@ import Bloom_filter_marabou_run
 import Lindex_marabou_run
 import Decima_marabou_run
 
+# Script to run verification using Marabou for selected models
 
 def main():
-    parser = argparse.ArgumentParser()
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description="Run Marabou verification for selected models.")
 
-    parser.add_argument("--model", default="all",
-                        choices=["pensieve", "decima", "lindex", "bloom_filter", "aurora", "all"],
-                        help="which model to verify pensieve, decima, lindex, bloom_filter, aurora")
-    parser.add_argument("--path",
-                        help="verifier path")
+    # Add arguments
+    parser.add_argument(
+        "--model", 
+        default="all", 
+        choices=["pensieve", "decima", "lindex", "bloom_filter", "aurora", "all"], 
+        help="Specify which model to verify: pensieve, decima, lindex, bloom_filter, aurora, or all."
+    )
+    parser.add_argument(
+        "--path", 
+        required=True, 
+        help="Path to the verifier executable or script."
+    )
 
+    # Parse command-line arguments
     args = parser.parse_args()
+
+    # Map model names to corresponding functions
+    model_functions = {
+        "pensieve": Pensieve_marabou_run.main,
+        "decima": Decima_marabou_run.main,
+        "lindex": Lindex_marabou_run.main,
+        "bloom_filter": Bloom_filter_marabou_run.main,
+        "aurora": Aurora_marabou_run.main
+    }
+
+    # Run verification for the specified model(s)
     if args.model == "all":
-        Pensieve_marabou_run.main(args.path)
-        Decima_marabou_run.main(args.path)
-        Lindex_marabou_run.main(args.path)
-        Bloom_filter_marabou_run.main(args.path)
-        Aurora_marabou_run.main(args.path)
-    if args.model == "pensieve":
-        Pensieve_marabou_run.main(args.path)
-    if args.model == "decima":
-        Decima_marabou_run.main(args.path)
-    if args.model == "lindex":
-        Lindex_marabou_run.main(args.path)
-    if args.model == "bloom_filter":
-        Bloom_filter_marabou_run.main(args.path)
-    if args.model == "aurora":
-        Aurora_marabou_run.main(args.path)
+        # Run all models
+        for model, func in model_functions.items():
+            print(f"Running Marabou verification for {model}...")
+            func(args.path)
+    else:
+        # Run a single specified model
+        print(f"Running Marabou verification for {args.model}...")
+        model_functions[args.model](args.path)
 
 
 if __name__ == "__main__":

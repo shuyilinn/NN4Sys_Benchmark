@@ -1,3 +1,7 @@
+'''
+This script is to create json file for verification result visualization.
+'''
+
 import copy
 import os
 import json

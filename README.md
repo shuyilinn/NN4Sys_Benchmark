@@ -159,7 +159,7 @@ Install Marabou by following the instructions at https://github.com/NeuralNetwor
 Then run:
 ```bash
 cd Verification
-python marabou_run.py --path {runMarabou.py path} --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
+python marabou_run.py --path {runMarabou.py path} --model {"pensieve", "decima", "lindex", "bloom_filter", "aurora", "all"}
 cd ..
 ```
 
@@ -172,11 +172,10 @@ python draw.py
 cd ../..
 ```
 
-When you see 
-```
+Once the process is complete, you should see the following messages:
+```bash
 [Done] Creation is finished. Result stored in eval_results.json
 [Done] Successfully generated verification_runtime.pdf
 [Done] Successfully generated verification_runtime_and_model_size.pdf
 
 ```
-The figrue is successfully generated.

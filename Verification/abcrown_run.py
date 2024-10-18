@@ -6,36 +6,48 @@ import Lindex_abcrown_run
 import Cardinality_abcrown_run
 import Decima_abcrown_run
 
+# This script is used to verify models using abcrown
 
 def main():
-    parser = argparse.ArgumentParser()
+    # Argument parser setup
+    parser = argparse.ArgumentParser(description="Run abcrown verification for selected models.")
 
-    parser.add_argument("--model", default="all",
-                        choices=["pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"],
-                        help="which model to verify pensieve, decima, lindex, cardinality, bloom_filter, aurora")
-    parser.add_argument("--path",
-                        help="verifier path")
+    # Add arguments
+    parser.add_argument(
+        "--model", 
+        default="all", 
+        choices=["pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"],
+        help="Specify which model to verify: pensieve, decima, lindex, cardinality, bloom_filter, aurora, or all."
+    )
+    parser.add_argument(
+        "--path", 
+        required=True, 
+        help="Path to the verifier executable or script."
+    )
 
+    # Parse command-line arguments
     args = parser.parse_args()
+
+    # Function map to associate model names with corresponding function calls
+    model_functions = {
+        "pensieve": Pensieve_abcrown_run.main,
+        "decima": Decima_abcrown_run.main,
+        "lindex": Lindex_abcrown_run.main,
+        "cardinality": Cardinality_abcrown_run.main,
+        "bloom_filter": Bloom_filter_abcrown_run.main,
+        "aurora": Aurora_abcrown_run.main
+    }
+
+    # Run verification for the specified model(s)
     if args.model == "all":
-        Pensieve_abcrown_run.main(args.path)
-        Decima_abcrown_run.main(args.path)
-        Lindex_abcrown_run.main(args.path)
-        Cardinality_abcrown_run.main(args.path)
-        Bloom_filter_abcrown_run.main(args.path)
-        Aurora_abcrown_run.main(args.path)
-    if args.model == "pensieve":
-        Pensieve_abcrown_run.main(args.path)
-    if args.model == "decima":
-        Decima_abcrown_run.main(args.path)
-    if args.model == "lindex":
-        Lindex_abcrown_run.main(args.path)
-    if args.model == "cardinality":
-        Cardinality_abcrown_run.main(args.path)
-    if args.model == "bloom_filter":
-        Bloom_filter_abcrown_run.main(args.path)
-    if args.model == "aurora":
-        Aurora_abcrown_run.main(args.path)
+        # Verify all models
+        for model, func in model_functions.items():
+            print(f"Running abcrown verification for {model}...")
+            func(args.path)
+    else:
+        # Verify only the specified model
+        print(f"Running abcrown verification for {args.model}...")
+        model_functions[args.model](args.path)
 
 
 if __name__ == "__main__":
