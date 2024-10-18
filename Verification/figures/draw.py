@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from adjustText import adjust_text
+
 import matplotlib
 
 import copy
@@ -8,6 +8,8 @@ import math
 import numpy as np
 import sys
 import json
+
+
 
 
 def adjust_map(map):
@@ -82,17 +84,18 @@ def main():
            'pensieve_small_3': "AdaptBitrate_small_dual_spec3",
            }
 
-    font = {'family': 'Times New Roman',
+    font = {'family': 'DejaVu Sans',
             'color': 'black',
             'weight': 'normal',
             'size': 15
             }
-    font_text = {'family': 'Times New Roman',
-                 'color': 'black',
-                 'weight': 'normal',
-                 'size': 14
-                 }
-    font_legend = {'family': 'Times New Roman', 'size': 15}
+    font_text = {'family': 'DejaVu Sans',
+                'color': 'black',
+                'weight': 'normal',
+                'size': 14
+                }
+    font_legend = {'family': 'DejaVu Sans', 'size': 15}
+
 
     f = open('eval_results.json')
     content = f.read()
@@ -114,11 +117,11 @@ def main():
         if "marabou" in datas[key].keys():
             map_ab = datas[key]["abcrown"]
             map_ma = datas[key]["marabou"]
-            print(content1 % (string,str(map_ab["safe"]), str(map_ab["unsafe"]), str(map_ab["timeout"]),str(
-                map_ma["safe"]), str(map_ma["unsafe"]), str(map_ma["timeout"])))
+            #print(content1 % (string,str(map_ab["safe"]), str(map_ab["unsafe"]), str(map_ab["timeout"]),str(
+            #    map_ma["safe"]), str(map_ma["unsafe"]), str(map_ma["timeout"])))
         else:
             map_ab = datas[key]["abcrown"]
-            print(content2 % (string, str(map_ab["safe"]),str(map_ab["unsafe"]),str(map_ab["timeout"])))
+            #print(content2 % (string, str(map_ab["safe"]),str(map_ab["unsafe"]),str(map_ab["timeout"])))
 
     # second fiture: runtime
 
