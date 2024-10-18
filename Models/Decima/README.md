@@ -1,16 +1,21 @@
-# Decima Implementation in Pytorch
+# Decima Implementation in PyTorch
 
+Decima is implemented in PyTorch, and this guide provides instructions to train and test the model.
 
-Train Decima, run
-```
+## Training
+
+To train the Decima model, run the following command:
+```bash
 python train.py
 ```
 
+## Testing
 
-Test Decima, run
-```
+To test the Decima model, run:
+```bash
 python test.py
 ```
 
-Some example output are in `results/`
+## Example Output
 
+You can find example output in the `results/` directory.

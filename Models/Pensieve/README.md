@@ -1,12 +1,6 @@
 # Pensieve
 Implement Pensieve in PyTorch
 
-### Prerequisites
-- PyTorch 1.13.1
-- Python 3.9
-- Matplotlib
-- NumPy
-- (MacOS M1)
 
 ### Training
 To train a new model, modify the `"MODEL"` parameter in `train.py` to select different models, then run:

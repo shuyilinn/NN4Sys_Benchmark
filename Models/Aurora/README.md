@@ -20,7 +20,7 @@ To train the Aurora model, follow these steps:
 
 3. **Run the Training Script**  
    Once the dependencies are installed, initiate the training by running the `train.py` script:
-   ```bash
+   ```bash 
    python train.py
    ```
 
