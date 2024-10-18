@@ -9,6 +9,9 @@ which are five tasks that apply neural networks to solve traditional tasks for s
 
 ## Quick Start
 
+Steps 1 and 2 reproduce the generation of specifications. All results from these steps are already included in the repository, so you can skip them and go directly to the [Verify](#3-verify)(#verify) section if you only want to run verification with this benchmark.
+
+
 ### 1. Train the Model
 
 Pre-trained models are available, so you may skip this step if you wish to use them directly.  
@@ -29,26 +32,26 @@ You can find the training and testing instructions and pre-trained models for ea
 
 
 
-
-
-
 ### 2. Generate specifications and onnx models
+This step reproduces the generation of specifications. All results from this step are already included in the repository, so you can skip it if you prefer.
+
 #### 2.1 Install dependencies
-```
+```bash
 conda create -n myenv python=3.9 --yes
 conda env create -f environment.yml
 ```
 Then activate the environment
-```
+```bash
 conda activate myenv
 ```
 
 
 
 #### 2.2 generate instance pools
-The second step is to generate the "instance pool" for each model, which include thousands of instances which be the resources when generating the benchmark instances. 
-To generate fixed input files for models, run
-```
+The next step is to generate the "instance pool" for each model, which includes thousands of instances used as resources when generating the benchmark instances.
+
+To generate fixed input files for the models, run:
+```bash
 cd Models
 python gen_upper.py --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
 cd ..
@@ -57,29 +60,49 @@ Note: current we only provide the script for
 - **Learned Internet Congestion Control**
 - **Learned Adaptive Bitrate**
 - **Learned Distributed System Scheduler**
-You can skip this step as these files are provided, you can refer to this [table]
+You can skip this step as these files are already provided. Refer to this [table](#onnx-and-specifications-table) for more information.
 
 ### 2.3 Create onnx models
-We use onnx format model for verifying. To create onnx models from trained models, run
-```
+We use ONNX format models for verification. To create ONNX models from trained models, run:
+```bash
 cd Models
 python export.py --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
 cd ..
 ```
-You can skip this step as onnx models are provided, you can refer to this [table](#onnx-and-specifications-table).
+You can skip this step as ONNX models are already provided. Refer to this [table](#onnx-and-specifications-table) for more information.
 
 ### 2.4 Generate specifications
-Then we can create specifications, run
+To create the specifications, run the following commands:
 
-```
+```bash
 cd Benchmarks
-python generate_properties.py {--seed 2024}
+python generate_properties.py --seed 2024
 cd ..
 ```
-random seed default is 2024. 
-In this step, we generate 10 instances for each specification seperately. If you want to generate more instances
+The default random seed is 2024. By default, this step generates 10 instances for each specification separately. If you want to generate more instances, you can set the --size and --model parameters. The model can be chosen from the following table [model and parameter map](#model-and-name-table)
 
-You can skip this step as instances are provided, you can refer to the [table] below.(#onnx-and-specifications-table).
+```bash
+cd Benchmarks
+python generate_properties.py --model pensieve --size 20
+cd ..
+```
+<a name="model-and-name-table"></a>
+|Model|Used Name in Parameter|
+|----|---|
+|Learned Internet Congestion Control|```aurora```|
+|Learned Adaptive Bitrate|```pensieve```|
+|Learned Distributed System Scheduler|```decima```|
+|Database Learned Index|```lindex```|
+|Learned Bloom Filter|```bloom_filter```|
+|Learned Cardinalities|```cardinality```|
+|All Models|```all```|
+
+
+When you see the message ```Successfully generated required instances!```, it means the instances have been generated successfully. 
+
+The generated files are located in ```Benchmarks/vnnlim``` and ```Benchmarks/marabou_txt```.
+
+You can skip this step as instances are provided, you can refer to the [table](#onnx-and-specifications-table) below..
 
 <a name="onnx-and-specifications-table"></a>
 
@@ -101,28 +124,35 @@ You can skip this step as instances are provided, you can refer to the [table] b
 
 
 ### 3. Verify
-Currently we provide script for alpha-beta crown and marabou. We are actively developing this project, more verifiers will be supported in the future.
-### 3.1 Verify with alpha-beta-crown
-install abcrown https://github.com/Verified-Intelligence/alpha-beta-CROWN
-run
-```
+
+Currently, we provide scripts for [Alpha-Beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN) and [Marabou](https://github.com/NeuralNetworkVerification/Marabou/tree/master). We are actively developing this project, and more verifiers will be supported in the future.
+
+#### 3.1 Verify with Alpha-Beta-CROWN
+
+Install Alpha-Beta-CROWN by following the instructions at [https://github.com/Verified-Intelligence/alpha-beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN).
+
+Then run:
+
+```bash
 cd Verification
-python abcrown_run.py --path {abcrown.py path} --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
+python abcrown_run.py --path {path to abcrown.py} --model {pensieve, decima, lindex, cardinality, bloom_filter, aurora, all}
 cd ..
 ```
 
-### 3.2 Verify with marabou
-Install marabou https://github.com/NeuralNetworkVerification/Marabou/tree/master
-run
-```
+
+### 3.2 Verify with Marabou
+Install Marabou by following the instructions at https://github.com/NeuralNetworkVerification/Marabou/tree/master.
+
+Then run:
+```bash
 cd Verification
 python marabou_run.py --path {runMarabou.py path} --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
 cd ..
 ```
 
-### 4. Results visualization
-run
-```
+### 4. Results Visualization
+To visualize the results, run:
+```bash
 cd Verification/figures
 python create_json.py
 python draw.py
