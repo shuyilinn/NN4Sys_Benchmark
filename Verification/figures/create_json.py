@@ -231,7 +231,7 @@ def main():
         f.write(datas_json)
 
     # Print that the creation is finished
-    print('[Done] Creation is finished.')
+    print('[Done] Creation is finished. Result stored in eval_results.json')
 
 
 
