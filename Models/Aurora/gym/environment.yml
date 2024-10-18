@@ -69,4 +69,4 @@ dependencies:
       - six==1.16.0
       - stable-baselines3==2.3.2
       - tzdata==2024.2
-prefix: /home/shuyi/miniconda3/envs/aurora
+
