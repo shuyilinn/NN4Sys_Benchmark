@@ -40,7 +40,6 @@ class MyMlpPolicy(ActorCriticPolicy):
                  model_type='small', *args, **kwargs):
         self.model_type = model_type
         super().__init__(observation_space, action_space, lr_schedule, *args, **kwargs)
-        
         self.ortho_init = False
 
     def _build_mlp_extractor(self) -> None:
@@ -96,3 +95,5 @@ if __name__ == "__main__":
     else:
         print(f"Training {args.model} model...")
         train_model(args.model)
+
+    print(f"[Done] Finished training {args.model} model")

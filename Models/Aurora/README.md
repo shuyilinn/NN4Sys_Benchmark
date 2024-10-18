@@ -19,9 +19,19 @@ To train the Aurora model, follow these steps:
    ```
 
 3. **Run the Training Script**  
-   Once the dependencies are installed, initiate the training by running the `train.py` script:
+Once the dependencies are installed, initiate the training by running the `train.py` script. You can specify the model type (`small`, `mid`, `big`, or `all`) to train different versions of the Aurora model. Use the following command:
    ```bash 
-   python train.py
+   python train.py --model {small, mid, big, all}
    ```
+- `small`: Trains the small version of the model.
+- `mid`: Trains the mid-sized model.
+- `big`: Trains the large version of the model.
+- `all`: Trains all three model versions sequentially.
 
-This will start the training process using the predefined configurations in the script. Modify the script parameters as needed to adjust the training settings for your specific use case.
+
+
+Once training is complete, you will see the following message:
+```bash
+[Done] Finished training {args.model} model
+```
+
