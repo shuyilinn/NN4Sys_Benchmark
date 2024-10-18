@@ -1,11 +1,13 @@
+'''
+Script to run verification using Marabou for selected models
+'''
+
 import argparse
 import Aurora_marabou_run
 import Pensieve_marabou_run
 import Bloom_filter_marabou_run
 import Lindex_marabou_run
 import Decima_marabou_run
-
-# Script to run verification using Marabou for selected models
 
 def main():
     # Set up argument parser
@@ -22,6 +24,12 @@ def main():
         "--path", 
         required=True, 
         help="Path to the verifier executable or script."
+    )
+    parser.add_argument(
+        "--size", 
+        type=int, 
+        default=10, 
+        help="Number of verification instances to run for each model (default: 10)."
     )
 
     # Parse command-line arguments
@@ -40,12 +48,12 @@ def main():
     if args.model == "all":
         # Run all models
         for model, func in model_functions.items():
-            print(f"Running Marabou verification for {model}...")
-            func(args.path)
+            print(f"Running Marabou verification for {model} with {args.size} instances...")
+            func(args.path, args.size)
     else:
         # Run a single specified model
-        print(f"Running Marabou verification for {args.model}...")
-        model_functions[args.model](args.path)
+        print(f"Running Marabou verification for {args.model} with {args.size} instances...")
+        model_functions[args.model](args.path, args.size)
 
 
 if __name__ == "__main__":

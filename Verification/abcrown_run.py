@@ -1,3 +1,7 @@
+'''
+This script is used to verify models using abcrown
+'''
+
 import argparse
 import Aurora_abcrown_run
 import Pensieve_abcrown_run
@@ -5,8 +9,6 @@ import Bloom_filter_abcrown_run
 import Lindex_abcrown_run
 import Cardinality_abcrown_run
 import Decima_abcrown_run
-
-# This script is used to verify models using abcrown
 
 def main():
     # Argument parser setup
@@ -23,6 +25,12 @@ def main():
         "--path", 
         required=True, 
         help="Path to the verifier executable or script."
+    )
+    parser.add_argument(
+        "--size", 
+        type=int, 
+        default=10, 
+        help="Number of verification instances to run for each model (default: 10)."
     )
 
     # Parse command-line arguments
@@ -42,13 +50,13 @@ def main():
     if args.model == "all":
         # Verify all models
         for model, func in model_functions.items():
-            print(f"Running abcrown verification for {model}...")
-            func(args.path)
+            print(f"Running abcrown verification for {model} with {args.size} instances...")
+            func(args.path, args.size)
         print(f"[Done] Finished running abcrown verification for all models")
     else:
         # Verify only the specified model
-        print(f"Running abcrown verification for {args.model}...")
-        model_functions[args.model](args.path)
+        print(f"Running abcrown verification for {args.model} with {args.size} instances...")
+        model_functions[args.model](args.path, args.size)
         print(f"[Done] Finished running abcrown verification for {args.model}")
 
 

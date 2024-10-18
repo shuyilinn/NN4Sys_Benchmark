@@ -1,9 +1,10 @@
 """
-This script is to verify Aurora with abcrown.
+This script is to verify Aurora models with abcrown.
 """
 
 import os
 import argparse
+import subprocess
 
 # Set MKL threading layer to GNU
 os.environ['MKL_THREADING_LAYER'] = 'GNU'
@@ -16,28 +17,25 @@ MODEL_TYPES = ['simple', 'simple', 'simple', 'parallel', 'concat']  # Model type
 SPEC_TYPES = [101, 102, 2, 3, 4]  # Different specification types
 
 # Directory paths
-vnn_dir_path = '../Benchmarks/vnnlib'
-onnx_dir_path = '../Benchmarks/onnx'
-yaml_path = './aurora_yaml'
-running_result_path = './aurora_abcrown_running_result'
+VNN_DIR_PATH = '../Benchmarks/vnnlib'
+ONNX_DIR_PATH = '../Benchmarks/onnx'
+YAML_PATH = './aurora_yaml'
+RUNNING_RESULT_PATH = './aurora_abcrown_running_result'
 
 # Timeout for each verification task (in seconds)
-timeout = 100
+TIMEOUT = 100
 
 # Initialize additional parameters
-csv_data = []
-total_num = 0
-current_gpu = 0
+CSV_DATA = []
+TOTAL_NUM = 0
 DIMENSION_NUMBERS = [1, 2, 3]  # Different dimensions for the tasks
 P_RANGE = [0.8, 1, 1.2, 1.4, 1.6]  # Parameter ranges to test
 
 # Create necessary directories if they do not exist
-if not os.path.exists(running_result_path):
-    os.makedirs(running_result_path)
-if not os.path.exists(yaml_path):
-    os.makedirs(yaml_path)
+os.makedirs(RUNNING_RESULT_PATH, exist_ok=True)
+os.makedirs(YAML_PATH, exist_ok=True)
 
-def create_yaml(yaml, vnn_path, onnx_path):
+def create_yaml(yaml: str, vnn_path: str, onnx_path: str) -> None:
     """
     Create a YAML configuration file for abcrown to run with given model and specification paths.
 
@@ -54,7 +52,7 @@ def create_yaml(yaml, vnn_path, onnx_path):
             "solver:\n  batch_size: 2048\nbab:\n  branching:\n    method: sb\n    sb_coeff_thresh: 0.1\n    input_split:\n      enable: True"
         )
 
-def main(abcrown_path, size = 10):
+def main(abcrown_path: str, size: int = 10) -> None:
     """
     Main function to run abcrown verification on Aurora models.
 
@@ -63,8 +61,8 @@ def main(abcrown_path, size = 10):
         size (int): Number of verification instances to generate for each configuration.
     """
     for i in range(len(SPEC_TYPES)):
-        for MODEL in MODELS:
-            for instance in range(size):  # Using the size argument to control how many instances to run
+        for model in MODELS:
+            for instance in range(size):
                 for range_ptr in range(len(P_RANGE)):
                     for d_ptr in range(len(DIMENSION_NUMBERS)):
                         dimension_number = DIMENSION_NUMBERS[d_ptr]
@@ -74,29 +72,21 @@ def main(abcrown_path, size = 10):
                             continue
 
                         # Construct paths for vnnlib specification and onnx model
-                        vnn_path = f'{vnn_dir_path}/aurora_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.vnnlib'
-                        onnx_path = f'{onnx_dir_path}/aurora_{MODEL}_{MODEL_TYPES[i]}.onnx'
-                        yaml = f'{yaml_path}/aurora_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.yaml'
+                        vnn_path = f'{VNN_DIR_PATH}/aurora_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.vnnlib'
+                        onnx_path = f'{ONNX_DIR_PATH}/aurora_{model}_{MODEL_TYPES[i]}.onnx'
+                        yaml = f'{YAML_PATH}/aurora_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.yaml'
 
                         # Create YAML configuration file
                         create_yaml(yaml, vnn_path, onnx_path)
 
                         # Run abcrown and save the output
-                        os.system(f"python {abcrown_path} --config {yaml} | tee {running_result_path}/aurora_{MODEL}_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.txt")
-
+                        output_file = f"{RUNNING_RESULT_PATH}/aurora_{model}_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.txt"
+                        with open(output_file, 'w') as f:
+                            subprocess.run(['python', abcrown_path, '--config', yaml], stdout=f, stderr=subprocess.STDOUT)
 
 if __name__ == "__main__":
-    # Argument parser setup
-    parser = argparse.ArgumentParser(description="Run abcrown verification on Aurora models.")
-    
-    # Add required abcrown path argument
-    parser.add_argument("abcrown_path", help="Path to the abcrown verifier.")
-    
-    # Add optional size argument with default value of 10
-    parser.add_argument("--size", type=int, default=10, help="Number of verification instances to run (default: 10).")
-    
-    # Parse the command-line arguments
+    parser = argparse.ArgumentParser(description="Verify Aurora models with abcrown.")
+    parser.add_argument('abcrown_path', type=str, help="Path to the abcrown verifier.")
+    parser.add_argument('--size', type=int, default=10, help="Number of verification instances to generate for each configuration (default: 10).")
     args = parser.parse_args()
-
-    # Call the main function with parsed arguments
     main(args.abcrown_path, args.size)

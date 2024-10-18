@@ -1,3 +1,7 @@
+'''
+This script it to generate the instances for Pensieve.
+'''
+
 import os
 import random
 import argparse

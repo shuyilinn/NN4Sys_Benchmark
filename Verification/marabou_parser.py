@@ -1,3 +1,5 @@
+# This is a script for analysis the running result during development. 
+
 import os
 import math
 import numpy as np

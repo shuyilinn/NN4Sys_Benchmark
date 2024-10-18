@@ -1,18 +1,21 @@
 # Pensieve
-Implement pensieve in Pytorch
-
+Implement Pensieve in PyTorch
 
 ### Prerequisites
-- pytorch 1.13.1, python 3.9, matplotlib, numpy, (MacOS M1)
+- PyTorch 1.13.1
+- Python 3.9
+- Matplotlib
+- NumPy
+- (MacOS M1)
 
 ### Training
-- To train a new model, change "MODEL" in train.py to choose different models, run
-```
+To train a new model, modify the `"MODEL"` parameter in `train.py` to select different models, then run:
+```bash
 python train.py
 ```
 
 ### Testing
-- To test the trained model in simulated environment, change the `NN_MODEL` field of `test.py` , then run 
-```
+To test the trained model in a simulated environment, change the `NN_MODEL` field in `test.py`, then run:
+```bash
 python test.py
 ```

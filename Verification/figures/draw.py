@@ -1,6 +1,5 @@
 '''
 This script is to draw diagrams for verification result visualization.
-
 '''
 
 
