@@ -32,6 +32,7 @@ To set up the Conda environment for this project, follow these steps:
 
    ```bash
    conda env create -f environment.yml
+   conda activate aurora
     ```
 
 ### 3. Run the Training Script
@@ -51,5 +52,5 @@ python train.py --model {small, mid, big, all}
 
 Once training is complete, you will see the following message:
 ```
-[Done] Finished training {args.model} model
+[Done] Finished training {model_type} model
 ```
