@@ -231,7 +231,7 @@ def main():
         f.write(datas_json)
 
     # Print that the creation is finished
-    print('Creation is finished.')
+    print('[Done] Creation is finished.')
 
 
 
