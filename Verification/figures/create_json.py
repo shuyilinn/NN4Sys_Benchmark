@@ -218,9 +218,9 @@ def main():
                     continue
 
     # Optional: Print the data for verification
-    for key in datas.keys():
-        print(key)
-        print(datas[key])
+    # for key in datas.keys():
+    #     print(key)
+    #     print(datas[key])
 
     # Sort the datas dictionary
     datas = dict(sorted(datas.items()))
