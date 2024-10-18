@@ -38,8 +38,9 @@ K = 10
 class MyMlpPolicy(ActorCriticPolicy):
     def __init__(self, observation_space, action_space, lr_schedule=0.0001,
                  model_type='small', *args, **kwargs):
-        super().__init__(observation_space, action_space, lr_schedule, *args, **kwargs)
         self.model_type = model_type
+        super().__init__(observation_space, action_space, lr_schedule, *args, **kwargs)
+        
         self.ortho_init = False
 
     def _build_mlp_extractor(self) -> None:
