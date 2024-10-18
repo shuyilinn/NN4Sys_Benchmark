@@ -44,10 +44,12 @@ def main():
         for model, func in model_functions.items():
             print(f"Running abcrown verification for {model}...")
             func(args.path)
+        print(f"[Done] Finished running abcrown verification for all models")
     else:
         # Verify only the specified model
         print(f"Running abcrown verification for {args.model}...")
         model_functions[args.model](args.path)
+        print(f"[Done] Finished running abcrown verification for {args.model}")
 
 
 if __name__ == "__main__":

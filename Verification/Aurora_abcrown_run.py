@@ -37,7 +37,7 @@ if not os.path.exists(running_result_path):
 if not os.path.exists(yaml_path):
     os.makedirs(yaml_path)
 
-def create_yaml(yaml, vnn_path, onnx_path, inputshape=6):
+def create_yaml(yaml, vnn_path, onnx_path):
     """
     Create a YAML configuration file for abcrown to run with given model and specification paths.
 
@@ -45,7 +45,6 @@ def create_yaml(yaml, vnn_path, onnx_path, inputshape=6):
         yaml (str): Path where the YAML file will be created.
         vnn_path (str): Path to the vnnlib specification file.
         onnx_path (str): Path to the onnx model file.
-        inputshape (int): Input shape of the model (default is 6).
     """
     with open(yaml, mode='w') as f:
         f.write("general:\n  enable_incomplete_verification: False\n  conv_mode: matrix\n")
@@ -84,6 +83,7 @@ def main(abcrown_path, size = 10):
 
                         # Run abcrown and save the output
                         os.system(f"python {abcrown_path} --config {yaml} | tee {running_result_path}/aurora_{MODEL}_{SPEC_TYPES[i]}_{dimension_number}_{range_ptr}_{instance}.txt")
+
 
 if __name__ == "__main__":
     # Argument parser setup

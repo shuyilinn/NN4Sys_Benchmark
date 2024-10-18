@@ -151,6 +151,12 @@ cd Verification
 python abcrown_run.py --path {path to abcrown.py} --model {pensieve, decima, lindex, cardinality, bloom_filter, aurora, all}
 cd ..
 ```
+Hint: the abcrown path is usually like ```/home/User/Verifier_Development/complete_verifier```
+
+Once the process is complete, you should see the following messages:
+```bash
+[Done] Finished running abcrown verification for {model}
+```
 
 
 ### 3.2 Verify with Marabou
