@@ -175,5 +175,8 @@ cd ../..
 When you see 
 ```
 [Done] Creation is finished. Result stored in eval_results.json
+[Done] Successfully generated verification_runtime.pdf
+[Done] Successfully generated verification_runtime_and_model_size.pdf
 
 ```
+The figrue is successfully generated.
