@@ -106,7 +106,12 @@ python generate_properties.py --model pensieve --size 20
 cd ..
 ```
 
-When you see the message ```Successfully generated required instances!```, it means the instances have been generated successfully. 
+When you see the message 
+
+```
+Successfully generated required instances!
+```
+it means the instances have been generated successfully. 
 
 The generated files are located in [```Benchmarks/vnnlib```](./Benchmarks/vnnlib) and [```Benchmarks/marabou_txt```](Benchmarks/marabou_txt).
 
@@ -114,7 +119,7 @@ You can skip this step as instances are provided, you can refer to the [table](#
 
 <a name="onnx-and-specifications-table"></a>
 
-| Model                                  | Training and Testing Instructions                                                                 | ONNX Model                                                                                     |  Instance VNNLIB                                                                                     |  Instance txt                                                                                     |
+| Model | Training and Testing Instructions | ONNX Model |  Instance VNNLIB |  Instance txt   |
 |----------------------------------------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | Learned Internet Congestion Control     | [Instance Pool](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/src/aurora/aurora_resources) | [ONNX Model](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/onnx)           | [VNNLIB](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/vnnlib)                       | [TXT](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/marabou_txt)                   |
 | Learned Adaptive Bitrate               | [Instance Pool](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/src/pensieve/pensieve_resources) | [ONNX Model](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/onnx)           | [VNNLIB](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/vnnlib)                       | [TXT](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Benchmarks/marabou_txt)                   |
@@ -165,4 +170,10 @@ cd Verification/figures
 python create_json.py
 python draw.py
 cd ../..
+```
+
+When you see 
+```
+[Done] Creation is finished. Result stored in eval_results.json
+
 ```

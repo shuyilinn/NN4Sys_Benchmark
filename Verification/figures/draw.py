@@ -188,7 +188,7 @@ def main():
 
     ax.set_ylabel('Average Runtime (s)', fontdict=font)
 
-    plt.tick_params(labelsize=15, labelfontfamily='Times New Roman')
+    plt.tick_params(labelsize=15, labelfontfamily='DejaVu Sans')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     [x.set_linewidth(2) for x in ax.spines.values()]
@@ -221,7 +221,7 @@ def main():
 
     names = [map[i] for i in size_dic.keys()]
     l1 = ax.bar(names, runtime, width=width, label='Verification Runtime', lw=2, ec='black')
-    plt.xticks(rotation=-30, ha="left", rotation_mode="anchor", fontproperties='Times New Roman', size=15)
+    plt.xticks(rotation=-30, ha="left", rotation_mode="anchor", fontproperties='DejaVu Sans', size=15)
     position = copy.deepcopy(runtime)
     position[10] += 0.4  # adjust the text y position so that texts will not overlap
     position[12] += 0.3  # adjust the text y position so that texts will not overlap
@@ -229,7 +229,7 @@ def main():
     for i in range(len(size_dic.keys())):
         texts = plt.text(names[i], position[i], str(int(100 * runtime[i]) / 100.0), ha='center', va='bottom',
                          fontdict=font_text)
-    plt.tick_params(labelsize=15, labelfontfamily='Times New Roman')
+    plt.tick_params(labelsize=15, labelfontfamily='DejaVu Sans')
 
     ax2 = ax.twinx()
     ax2.plot(names, size_dic.values(), '-o', label='Model Size', color='orange')
@@ -239,7 +239,7 @@ def main():
     ax2.set_ylabel('Size (byte)', fontdict=font)
     ax.set_ylabel('Average Runtime (s)', fontdict=font)
     plt.yscale("log")
-    plt.tick_params(labelsize=15, labelfontfamily='Times New Roman')
+    plt.tick_params(labelsize=15, labelfontfamily='DejaVu Sans')
 
     ax.spines['top'].set_visible(False)
     ax2.spines['top'].set_visible(False)
