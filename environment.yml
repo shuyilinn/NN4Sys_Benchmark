@@ -119,4 +119,4 @@ dependencies:
       - gym-notices==0.0.8
       - importlib-metadata==8.5.0
       - scipy==1.13.1
-prefix: /home/shuyi/miniconda3/envs/myenv
+
