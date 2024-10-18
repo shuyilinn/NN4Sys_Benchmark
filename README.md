@@ -26,9 +26,12 @@ You can find the training and testing instructions and pre-trained models for ea
 
 | Model                                  | Training and Testing Instructions                                                                 | Pre-trained Model |
 |----------------------------------------|----------------------------------------------------------------------------------------------------|------------------|
-| Learned Internet Congestion Control     | [Instruction](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Aurora)               | [Model](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Aurora/gym/results) |
-| Learned Adaptive Bitrate               | [Instruction](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Aurora)               | [Model](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Pensieve/results) |
-| Learned Distributed System Scheduler   | [Instruction](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Aurora)               | [Model](https://github.com/shuyilinn/NN4Sys_Benchmark/tree/main/Models/Decima/best_models) |
+| Learned Internet Congestion Control     | [Instruction](./Models/Aurora)               | [Model](./Models/Aurora/gym/results) |
+| Learned Adaptive Bitrate               | [Instruction](./Models/Pensieve)               | [Model](./Models/Pensieve/results) |
+| Learned Distributed System Scheduler   | [Instruction](./Models/Decima)               | [Model](./Models/Decima/best_models) |
+|Database Learned Index|-|[ONNX Model](Models/Learned_index)|
+|Learned Bloom Filter|-|[ONNX Model](Models/Bloom_filter/result)|
+|Learned Cardinalities|-|[ONNX Model](Models/Cardinality)|
 
 
 
@@ -56,10 +59,23 @@ cd Models
 python gen_upper.py --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
 cd ..
 ```
+Here is the model and its name in parameters.
+<a name="model-and-name-table"></a>
+|Model|Used Name in Parameter|
+|----|---|
+|Learned Internet Congestion Control|```aurora```|
+|Learned Adaptive Bitrate|```pensieve```|
+|Learned Distributed System Scheduler|```decima```|
+|Database Learned Index|```lindex```|
+|Learned Bloom Filter|```bloom_filter```|
+|Learned Cardinalities|```cardinality```|
+|All Models|```all```|
+
 Note: current we only provide the script for 
 - **Learned Internet Congestion Control**
 - **Learned Adaptive Bitrate**
 - **Learned Distributed System Scheduler**
+
 You can skip this step as these files are already provided. Refer to this [table](#onnx-and-specifications-table) for more information.
 
 ### 2.3 Create onnx models
@@ -79,28 +95,20 @@ cd Benchmarks
 python generate_properties.py --seed 2024
 cd ..
 ```
-The default random seed is 2024. By default, this step generates 10 instances for each specification separately. If you want to generate more instances, you can set the --size and --model parameters. The model can be chosen from the following table [model and parameter map](#model-and-name-table)
+The default random seed is 2024. 
+
+By default, this step generates 10 instances for each specification separately. If you want to generate more instances, you can set the --size and --model parameters. The model can be chosen from [model and parameter table](#model-and-name-table)
+
 
 ```bash
 cd Benchmarks
 python generate_properties.py --model pensieve --size 20
 cd ..
 ```
-<a name="model-and-name-table"></a>
-|Model|Used Name in Parameter|
-|----|---|
-|Learned Internet Congestion Control|```aurora```|
-|Learned Adaptive Bitrate|```pensieve```|
-|Learned Distributed System Scheduler|```decima```|
-|Database Learned Index|```lindex```|
-|Learned Bloom Filter|```bloom_filter```|
-|Learned Cardinalities|```cardinality```|
-|All Models|```all```|
-
 
 When you see the message ```Successfully generated required instances!```, it means the instances have been generated successfully. 
 
-The generated files are located in ```Benchmarks/vnnlim``` and ```Benchmarks/marabou_txt```.
+The generated files are located in [```Benchmarks/vnnlib```](./Benchmarks/vnnlib) and [```Benchmarks/marabou_txt```](Benchmarks/marabou_txt).
 
 You can skip this step as instances are provided, you can refer to the [table](#onnx-and-specifications-table) below..
 

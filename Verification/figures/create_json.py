@@ -2,11 +2,14 @@ import copy
 import os
 import json
 
+# List of models and verifiers to process
 Models = ['pensieve', 'lindex', 'aurora', 'decima', 'bloom_filter', 'cardinality']
 Verifiers = ['abcrown', 'marabou']
 
+# Directory containing the ONNX models
 ONND_DIR = "../../Benchmarks/onnx/"
 
+# Mapping from specification names to model filenames
 spec_to_model_map = {"aurora_big_101": "aurora_big_simple.onnx",
                      "aurora_big_102": "aurora_big_simple.onnx",
                      "aurora_big_2": "aurora_big_simple.onnx",
@@ -55,8 +58,9 @@ spec_to_model_map = {"aurora_big_101": "aurora_big_simple.onnx",
 
 
 def calculate_avg_time(dic1, dic2, dic3, times1, times2, time3):
-
-
+    """
+    Calculate the average time for each key based on the provided dictionaries.
+    """
     ret = {}
     for key in times2:
         if key in times1:
@@ -90,17 +94,22 @@ def calculate_avg_time(dic1, dic2, dic3, times1, times2, time3):
 
 
 def init_dic():
-    ret = {}
-
-    ret['safe'] = 0
-    ret['unsafe'] = 0
-    ret['time'] = 0
-    ret['timeout'] = 0
-
+    """
+    Initialize a dictionary with default values.
+    """
+    ret = {
+        'safe': 0,
+        'unsafe': 0,
+        'time': 0,
+        'timeout': 0
+    }
     return ret
 
 
 def main():
+    """
+    Main function to process data and generate evaluation results.
+    """
     datas = {}
     for verifier in Verifiers:
         for model in Models:
@@ -109,7 +118,7 @@ def main():
                 continue
             files = os.listdir(dir)
 
-
+            # Initialize counters and dictionaries
             unsat = 0
             sat = 0
             sat_dic = {}
@@ -119,8 +128,8 @@ def main():
             timeout_dic = {}
             timeout_time = {}
 
+            # Process each file in the directory
             for f in files:
-
                 file = f'{dir}/' + f
                 if file[-3:] != 'txt':
                     continue
@@ -128,103 +137,102 @@ def main():
                 if 'pensieve' in index or 'aurora' in index:
                     index = '_'.join(f.split('_')[:-3])
 
-
-
                 timeout = -1
 
+                # Read and process each result file
                 with open(file, 'r') as f:
                     result = 'timeout'
                     if verifier == 'abcrown':
                         for line in f:
                             line = line.strip()
-                            if line[:6] == "Result":
+                            if line.startswith("Result"):
                                 result = line[8:]
-                            if line[:4] == "Time":
+                            if line.startswith("Time"):
                                 timeout = float(line[6:15])
                     else:
                         for line in f:
                             line = line.strip()
-                            if line[:3] == "sat":
+                            if line.startswith("sat"):
                                 result = "sat"
-                            if line[:5] == "unsat":
+                            if line.startswith("unsat"):
                                 result = "unsat"
-                            if line[:4] == "Time":
+                            if line.startswith("Time"):
                                 timeout = float(line[5:15])
 
                     if timeout > 180:
                         result = "timeout"
                         timeout = 180
 
-
                     timeout = float(timeout)
+                    # Update counts and times based on the result
                     if result == 'unsat':
                         unsat += 1
-                        if index in unsat_dic.keys():
-                            unsat_dic[index] = unsat_dic[index] + 1
-                            unsat_time[index] = unsat_time[index] + timeout
-                        else:
-                            unsat_dic[index] = 1
-                            unsat_time[index] = timeout
+                        unsat_dic[index] = unsat_dic.get(index, 0) + 1
+                        unsat_time[index] = unsat_time.get(index, 0) + timeout
                     elif result == 'sat':
                         sat += 1
-                        if index in sat_dic.keys():
-                            sat_dic[index] = sat_dic[index] + 1
-                            sat_time[index] = sat_time[index] + timeout
-                        else:
-                            sat_dic[index] = 1
-                            sat_time[index] = timeout
+                        sat_dic[index] = sat_dic.get(index, 0) + 1
+                        sat_time[index] = sat_time.get(index, 0) + timeout
                     else:
-                        if index in timeout_dic.keys():
-                            timeout_dic[index] = timeout_dic[index] + 1
-                            timeout_time[index] = timeout_time[index] + 180
-                        else:
-                            timeout_dic[index] = 1
-                            timeout_time[index] = 180
+                        timeout_dic[index] = timeout_dic.get(index, 0) + 1
+                        timeout_time[index] = timeout_time.get(index, 0) + 180
 
+            # Prepare dictionaries for average time calculation
             sat_dic = dict(sorted(sat_dic.items()))
             sat_dic_copy = copy.deepcopy(sat_dic)
             unsat_dic = dict(sorted(unsat_dic.items()))
             unsat_dic_copy = copy.deepcopy(unsat_dic)
             timeout_dic_copy = copy.deepcopy(timeout_dic)
 
-            avg_time = calculate_avg_time(sat_dic_copy, unsat_dic_copy, timeout_dic_copy, sat_time, unsat_time,
-                                          timeout_time)
+            # Calculate average times
+            avg_time = calculate_avg_time(
+                sat_dic_copy, unsat_dic_copy, timeout_dic_copy, sat_time, unsat_time, timeout_time
+            )
 
-
+            # Compile data into the main datas dictionary
             for key in avg_time:
-                if not key in datas:
+                if key not in datas:
                     datas[key] = {}
-                if not verifier in datas[key]:
+                if verifier not in datas[key]:
                     datas[key][verifier] = init_dic()
 
                 datas[key][verifier]['time'] = avg_time[key]
 
-                if key in sat_dic:
-                    datas[key][verifier]['unsafe'] = sat_dic[key]
-                if key in unsat_dic:
-                    datas[key][verifier]['safe'] = unsat_dic[key]
-                if key in timeout_dic:
-                    datas[key][verifier]['timeout'] = timeout_dic[key]
-                else:
-                    datas[key][verifier]['timeout'] = 10 - datas[key][verifier]['unsafe'] - datas[key][verifier]['safe']
+                datas[key][verifier]['unsafe'] = sat_dic.get(key, 0)
+                datas[key][verifier]['safe'] = unsat_dic.get(key, 0)
+                datas[key][verifier]['timeout'] = timeout_dic.get(key, 0)
 
+                # Ensure total runs count to 10
+                total_runs = (datas[key][verifier]['unsafe'] +
+                              datas[key][verifier]['safe'] +
+                              datas[key][verifier]['timeout'])
+                if total_runs < 10:
+                    datas[key][verifier]['timeout'] += 10 - total_runs
 
-
+            # Add model size information
             for key in datas:
                 try:
                     size = os.path.getsize(ONND_DIR + spec_to_model_map[key])
                     datas[key]["size"] = size
                 except:
                     continue
+
+    # Optional: Print the data for verification
     for key in datas.keys():
         print(key)
         print(datas[key])
+
+    # Sort the datas dictionary
     datas = dict(sorted(datas.items()))
 
-    datas = json.dumps(datas)
-    f = open('eval_results.json', 'w')
-    f.write(datas)
-    f.close()
+    # Convert datas to JSON format and write to file
+    datas_json = json.dumps(datas)
+    with open('eval_results.json', 'w') as f:
+        f.write(datas_json)
+
+    # Print that the creation is finished
+    print('Creation is finished.')
+
 
 
 if __name__ == "__main__":
