@@ -2,15 +2,14 @@ import os
 import numpy as np
 import torch.multiprocessing as mp
 from torch.distributions import Categorical
-
 import torch
 import torch.optim as optim
-
 import test
 import env
 import model
 import load_trace
 import warnings
+import argparse 
 
 warnings.filterwarnings('ignore')
 cuda = torch.cuda.is_available()
@@ -43,11 +42,12 @@ NN_MODEL = None
 max_epoch = 50000
 REWARD_LIST = ['linear', 'log', 'hd']
 REWARD = REWARD_LIST[0]  # We only need linear reward trained model
-MODEL_LIST = ['small', 'mid', 'big']
-MODEL = MODEL_LIST[2]
 
 
-def central_agent(exp_queues, net_params_queues):
+MODEL_LIST = ['small', 'mid', 'big', 'all']
+
+
+def central_agent(exp_queues, net_params_queues, MODEL):
     # create actor model
     if MODEL == 'mid':
         actor = model.ActorNetwork_mid(state_dim=[S_INFO, S_LEN], action_dim=A_DIM,
@@ -199,7 +199,7 @@ def central_agent(exp_queues, net_params_queues):
             return
 
 
-def agent(agent_id, all_cooked_time, all_cooked_bw, exp_queue, actor_params_queue):
+def agent(agent_id, all_cooked_time, all_cooked_bw, exp_queue, actor_params_queue, MODEL):
     net_env = env.Environment(all_cooked_time=all_cooked_time,
                               all_cooked_bw=all_cooked_bw,
                               random_seed=agent_id)
@@ -330,7 +330,8 @@ def agent(agent_id, all_cooked_time, all_cooked_bw, exp_queue, actor_params_queu
             a_batch.append(bit_rate)
 
 
-def main():
+def train_model(model_type):
+    print(f"Starting training for {model_type} model...")
     np.random.seed(RANDOM_SEED)
     assert len(VIDEO_BIT_RATE) == A_DIM
 
@@ -341,7 +342,6 @@ def main():
 
     mp.set_start_method('spawn')
     processes = []
-    # manager = mp.Manager()
     exp_queues = []
     net_params_queues = []
 
@@ -350,18 +350,37 @@ def main():
         net_params_queues.append(mp.Queue())
 
     # create central agent
-    central_p = mp.Process(target=central_agent, args=(exp_queues, net_params_queues))
+    central_p = mp.Process(target=central_agent, args=(exp_queues, net_params_queues, model_type))
     central_p.start()
 
     for i in range(NUM_AGENTS):
         p = mp.Process(target=agent,
-                       args=(i, all_cooked_time, all_cooked_bw, exp_queues[i], net_params_queues[i]))
+                       args=(i, all_cooked_time, all_cooked_bw, exp_queues[i], net_params_queues[i], model_type))
         processes.append(p)
 
     for i in range(NUM_AGENTS):
         processes[i].start()
 
     central_p.join()
+
+    print(f"Training for {model_type} model finished.")
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Train and Test Pensieve Models')
+    parser.add_argument('--model', choices=MODEL_LIST, default='all', help='Choose the model size (small, mid, big, all)')
+    args = parser.parse_args()
+
+    global MODEL
+    MODEL = args.model  # Set the MODEL value based on command-line argument
+
+    if MODEL == 'all':
+        # Train all models in sequence: small, mid, big
+        for model_type in MODEL_LIST[:-1]:  # Skip 'all' in the list
+            train_model(model_type)
+    else:
+        # Train the specified model
+        train_model(MODEL)
 
 
 if __name__ == '__main__':

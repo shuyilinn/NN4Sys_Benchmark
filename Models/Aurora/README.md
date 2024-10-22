@@ -54,3 +54,6 @@ Once training is complete, you will see the following message:
 ```
 [Done] Finished training {model_type} model
 ```
+
+### 4. Testing
+Testing is not provided. Refer to the original paper for the necessary settings.
