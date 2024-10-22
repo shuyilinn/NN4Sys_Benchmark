@@ -178,6 +178,7 @@ def main():
     plt.xticks(rotation=-30, ha="left", rotation_mode="anchor")
     plt.yscale("log")
     plt.savefig("verification_runtime.pdf", format="pdf", bbox_inches="tight")
+    plt.savefig("verification_runtime.png", format="pdf", bbox_inches="tight")
     print("[Done] Successfully generated verification_runtime.pdf")
 
     # figure 3
@@ -230,6 +231,7 @@ def main():
     fig.legend(loc=(0.04, 0.9), ncols=3, prop=font_legend)
     [x.set_linewidth(2) for x in ax.spines.values()]
     plt.savefig("verification_runtime_and_model_size.pdf", format="pdf", bbox_inches="tight")
+    plt.savefig("verification_runtime_and_model_size.png", format="pdf", bbox_inches="tight")
 
     print("[Done] Successfully generated verification_runtime_and_model_size.pdf")
 
