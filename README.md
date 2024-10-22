@@ -188,13 +188,76 @@ Once the process is complete, you should see the following messages:
 [Done] Successfully generated verification_runtime_and_model_size.pdf
 ```
 The generated PDF files will be located in the `/Verification/figures/` directory.
+The result would look like the following:
 
-You can access the results directly via the following links:
+![verification_runtime](./Verification/figures/verification_runtime.png)
 
-- **[Verification Runtime](Verification/figures/verification_runtime.pdf):**  
-  This file provides a comparison of the verification runtime across different models.
-
-- **[Verification Runtime and Model Size](Verification/figures/verification_runtime_and_model_size.pdf):**  
-  This file compares the verification runtime in relation to the model size, providing insights into performance scalability.
+![verification_runtime_and_model_size](./Verification/figures/verification_runtime_and_model_size.png)
 
 
+
+## Build Your Own Benchmark (Simple Example)
+
+### Setup the Environment
+
+Ensure you have the required environment set up. Refer to [Section 2.1](#21-install-dependencies) for detailed instructions.
+
+### Step 1: Train Your Model
+
+Train your model using your preferred method, then save the model checkpoint (`.pth` file) to:
+`/Customize/model.pt`
+
+
+
+### Step 2: Export the Model to ONNX
+
+Convert the trained model to ONNX format using the provided export script:
+
+```bash
+cd Customize
+python export.py
+cd ..
+```
+Once the process is complete, you should see the following message:
+```bash
+[Done] The model export to Customize xxx.onnx successfully
+```
+
+
+
+
+###  Step 3: Generate Instances
+Create benchmark instances by setting the baseline and perturbation range for each input. Write the input data and perturbation ranges into `input.txt`.
+
+To generate instances, run:
+```bash
+cd Customize
+python generate_instances.py --number [instance_number] --input [input_file]
+cd ..
+```
+Replace `[instance_number]` with the number of instances you want to create and `[input_file]` with the path to your input file.
+
+
+
+### Step 4: Verify the Model
+
+Run the verification process using Alpha-Beta-CROWN:
+```bash
+cd Customize
+python verify_with_abcrown_run.py --onnx [onnx_path] --vnnlib [vnnlib_path] --abcrown [abcrown.py_path]
+cd ..
+```
+Replace:
+- `onnx_path` with the path to your ONNX model.
+-  `vnnlib_path` with the path to your VNNLIB file.
+- `abcrown.py_path` with the path to the abcrown.py script.
+The verification results will be saved in the `Customize/output` directory.
+
+### Step 5: Visualization
+To visualize the verification results, run:
+```bash
+cd Customize
+python visualize.py
+cd ..
+```
+The visualization output will be generated and saved in `Customize` directory
