@@ -186,5 +186,15 @@ Once the process is complete, you should see the following messages:
 [Done] Creation is finished. Result stored in eval_results.json
 [Done] Successfully generated verification_runtime.pdf
 [Done] Successfully generated verification_runtime_and_model_size.pdf
-
 ```
+The generated PDF files will be located in the `/Verification/figures/` directory.
+
+You can access the results directly via the following links:
+
+- **[Verification Runtime](Verification/figures/verification_runtime.pdf):**  
+  This file provides a comparison of the verification runtime across different models.
+
+- **[Verification Runtime and Model Size](Verification/figures/verification_runtime_and_model_size.pdf):**  
+  This file compares the verification runtime in relation to the model size, providing insights into performance scalability.
+
+
