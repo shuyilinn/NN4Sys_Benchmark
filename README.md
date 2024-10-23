@@ -26,7 +26,7 @@ You can find the training and testing instructions and pre-trained models for ea
 
 | Model                                  | Training and Testing Instructions                                                                 | Pre-trained Model |
 |----------------------------------------|----------------------------------------------------------------------------------------------------|------------------|
-| Learned Internet Congestion Control     | [Instruction](./Models/Aurora)               | [Model](./Models/Aurora/gym/results) |
+| Learned Internet Congestion Control     | [Instruction](./Models/Aurora/README.md)               | [Model](./Models/Aurora/gym/results) |
 | Learned Adaptive Bitrate               | [Instruction](./Models/Pensieve)               | [Model](./Models/Pensieve/results) |
 | Learned Distributed System Scheduler   | [Instruction](./Models/Decima)               | [Model](./Models/Decima/best_models) |
 |Database Learned Index|-|[ONNX Model](Models/Learned_index)|
@@ -167,6 +167,11 @@ Then run:
 cd Verification
 python marabou_run.py --path {runMarabou.py path} --model {"pensieve", "decima", "lindex", "bloom_filter", "aurora", "all"}
 cd ..
+```
+
+Once the process is complete, you should see the following messages:
+```bash
+[Done] Finished running marabou verification for {model}
 ```
 
 

@@ -50,10 +50,12 @@ def main():
         for model, func in model_functions.items():
             print(f"Running Marabou verification for {model} with {args.size} instances...")
             func(args.path, args.size)
+            print(f"[Done] Finished running marabou verification for all models")
     else:
         # Run a single specified model
         print(f"Running Marabou verification for {args.model} with {args.size} instances...")
         model_functions[args.model](args.path, args.size)
+        print(f"[Done] Finished running marabou verification for {args.model}")
 
 
 if __name__ == "__main__":
