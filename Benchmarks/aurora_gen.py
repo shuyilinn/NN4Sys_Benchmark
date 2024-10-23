@@ -133,6 +133,7 @@ def parser(num):
     Returns:
         tuple: index, perturbation range, and model type.
     """
+    num = int(num)
     index = num % 10000
     num //= 10000
     p_range = P_RANGE[num % 10]
