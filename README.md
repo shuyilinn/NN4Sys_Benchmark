@@ -40,7 +40,6 @@ This step reproduces the generation of specifications. All results from this ste
 
 #### 2.1 Install dependencies
 ```bash
-conda create -n myenv python=3.9 --yes
 conda env create -f environment.yml
 ```
 Then activate the environment
@@ -48,6 +47,12 @@ Then activate the environment
 conda activate myenv
 ```
 
+If you have issue building this environment, please just run
+```bash
+conda create -n myenv python=3.9
+conda activate myenv
+```
+Then install the missing package.
 
 
 #### 2.2 generate instance pools
@@ -265,4 +270,4 @@ cd Customize
 python visualize.py
 cd ..
 ```
-The visualization output will be generated and saved in `Customize` directory
+The visualization output will be generated and saved in `/Customize` directory
