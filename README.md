@@ -3,19 +3,19 @@
 We propose a benchmark suite for neural network verification for systems 
 (NN4Sys) in this repository. This suite includes verification 
 benchmark for learned index, learned cardinality, learned Internet congestion
-control, learned adaptive bitrate, learned distributed system scheduler, 
+control, learned adaptive bitrate, and learned distributed system scheduler, 
 which are five tasks that apply neural networks to solve traditional tasks for systems. 
 
 
 ## Quick Start
 
-Steps 1 and 2 reproduce the generation of specifications. All results from these steps are already included in the repository, so you can skip them and go directly to the [Verify](#3-verify) section if you only want to run verification with this benchmark.
+Steps 1 and 2 reproduce the generation of specifications. All results from these steps are already included in the repository, so you can skip them and go directly to the [Verification](#3-verify) section if you only want to run verification with this benchmark.
 
 
-### 1. Train the Model
+### 1. Training the Model
 
 Pre-trained models are available, so you may skip this step if you wish to use them directly.  
-However, if you prefer to train the models yourself, the training code is located in the `/Models` directory.  
+However, if you prefer to train the models by yourself, the training code is located in the `/Models` directory.  
 We provide scripts for training the following models:
 
 - **Learned Internet Congestion Control**
@@ -35,27 +35,27 @@ You can find the training and testing instructions and pre-trained models for ea
 
 
 
-### 2. Generate specifications and onnx models
-This step reproduces the generation of specifications. All results from this step are already included in the repository, so you can skip it if you prefer.
+### 2. Generating specifications and ONNX models
+This step generates specifications. All results from this step are already included in the repository, so you can skip this step and use them directly.
 
-#### 2.1 Install dependencies
+#### 2.1 Installing dependencies
 ```bash
 conda env create -f environment.yml
 ```
-Then activate the environment
+Then, activate the environment
 ```bash
 conda activate myenv
 ```
 
-If you have issue building this environment, please just run
+If you have an issue building this environment, please run
 ```bash
 conda create -n myenv python=3.9
 conda activate myenv
 ```
-Then install the missing package.
+Then, install the missing package.
 
 
-#### 2.2 generate instance pools
+#### 2.2 generating instance pools
 The next step is to generate the "instance pool" for each model, which includes thousands of instances used as resources when generating the benchmark instances.
 
 To generate fixed input files for the models, run:
@@ -64,7 +64,7 @@ cd Models
 python gen_upper.py --model {"pensieve", "decima", "lindex", "cardinality", "bloom_filter", "aurora", "all"}
 cd ..
 ```
-Here is the model and its name in parameters.
+Here is the model and its name in the parameters.
 <a name="model-and-name-table"></a>
 |Model|Used Name in Parameter|
 |----|---|
@@ -76,14 +76,14 @@ Here is the model and its name in parameters.
 |Learned Cardinalities|```cardinality```|
 |All Models|```all```|
 
-Note: current we only provide the script for 
+Note: currently, we only provide the script for 
 - **Learned Internet Congestion Control**
 - **Learned Adaptive Bitrate**
 - **Learned Distributed System Scheduler**
 
-You can skip this step as these files are already provided. Refer to this [table](#onnx-and-specifications-table) for more information.
+You can skip this step as these files have already been provided. Refer to this [table](#onnx-and-specifications-table) for more information.
 
-### 2.3 Create onnx models
+### 2.3 Creating ONNX models
 We use ONNX format models for verification. To create ONNX models from trained models, run:
 ```bash
 cd Models
@@ -92,7 +92,7 @@ cd ..
 ```
 You can skip this step as ONNX models are already provided. Refer to this [table](#onnx-and-specifications-table) for more information.
 
-### 2.4 Generate specifications
+### 2.4 Generating specifications
 To create the specifications, run the following commands:
 
 ```bash
@@ -141,11 +141,11 @@ You can skip this step as instances are provided, you can refer to the [table](#
 
 
 
-### 3. Verify
+### 3. Verification
 
 Currently, we provide scripts for [Alpha-Beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN) and [Marabou](https://github.com/NeuralNetworkVerification/Marabou/tree/master). We are actively developing this project, and more verifiers will be supported in the future.
 
-#### 3.1 Verify with Alpha-Beta-CROWN
+#### 3.1 Verification with Alpha-Beta-CROWN
 
 Install Alpha-Beta-CROWN by following the instructions at [https://github.com/Verified-Intelligence/alpha-beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN).
 
@@ -164,7 +164,7 @@ Once the process is complete, you should see the following messages:
 ```
 
 
-### 3.2 Verify with Marabou
+### 3.2 Verification with Marabou
 Install Marabou by following the instructions at https://github.com/NeuralNetworkVerification/Marabou/tree/master.
 
 Then run:
