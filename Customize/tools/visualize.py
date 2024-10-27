@@ -1,1 +1,0 @@
-# This file is to visualize the results of the verification
