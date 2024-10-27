@@ -211,63 +211,44 @@ The result would look like the following:
 ### Setup the Environment
 
 Ensure you have the required environment set up. Refer to [Section 2.1](#21-install-dependencies) for detailed instructions.
-
-### Step 1: Train Your Model
-
-Train your model using your preferred method, then save the model checkpoint (`.pth` file) to:
-`/Customize/model.pt`
-
-
-
-### Step 2: Export the Model to ONNX
-
-Convert the trained model to ONNX format using the provided export script:
-
+Run the following commands to install additional required packages for customizing benchmarks:
 ```bash
 cd Customize
-python export.py
+pip install -r requirements.txt
 cd ..
 ```
-Once the process is complete, you should see the following message:
-```bash
-[Done] The model export to Customize xxx.onnx successfully
-```
+
+### Step 1: Train and Save Your Model
+
+Train your model using your preferred framework and methodology. Once trained, save the following files to the specified locations:
+
+- **Model Checkpoint**: Save the `.pth` file to `/Customize/model.pt`
+- **Model Architecture**: Save the model definition script (e.g., `.py` file) to `/Customize/model.py`
+
+These files will be used to load and evaluate your model.
+
+
+### Step 2: Configure and Run the Benchmark
+
+We currently support a simple benchmarking setup. To get started:
+
+1. **Edit the Configuration File**: Fill in the details in the provided [configuration file](./Customize/configuration.yml). This file allows you to specify instance parameters and paths for benchmarking.
+   
+2. **Run the Benchmark**: Once configured, start the benchmark by running:
+
+   ```bash
+   python customize.py
+   ```
+Note: At present, only models with a single output are supported. Models requiring multiple outputs, such as Pensieve, are not yet compatible with this setup.
+
+The benchmarking results will display in the terminal upon completion.
 
 
 
 
-###  Step 3: Generate Instances
-Create benchmark instances by setting the baseline and perturbation range for each input. Write the input data and perturbation ranges into `input.txt`.
-
-To generate instances, run:
-```bash
-cd Customize
-python generate_instances.py --number [instance_number] --input [input_file]
-cd ..
-```
-Replace `[instance_number]` with the number of instances you want to create and `[input_file]` with the path to your input file.
 
 
 
-### Step 4: Verify the Model
 
-Run the verification process using Alpha-Beta-CROWN:
-```bash
-cd Customize
-python verify_with_abcrown_run.py --onnx [onnx_path] --vnnlib [vnnlib_path] --abcrown [abcrown.py_path]
-cd ..
-```
-Replace:
-- `onnx_path` with the path to your ONNX model.
--  `vnnlib_path` with the path to your VNNLIB file.
-- `abcrown.py_path` with the path to the abcrown.py script.
-The verification results will be saved in the `Customize/output` directory.
 
-### Step 5: Visualization
-To visualize the verification results, run:
-```bash
-cd Customize
-python visualize.py
-cd ..
-```
-The visualization output will be generated and saved in `/Customize` directory
+
