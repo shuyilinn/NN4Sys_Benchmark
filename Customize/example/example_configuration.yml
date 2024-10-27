@@ -30,5 +30,3 @@ other:
   # Path where the outputs should be saved
   output_path: ./output #default
 
-  # Additional numeric value for custom purposes
-  number: 10
