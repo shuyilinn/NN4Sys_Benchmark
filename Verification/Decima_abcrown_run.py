@@ -74,7 +74,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run ABCrown verification for Decima models.")
     
     # Add argument for the path to the ABCrown verifier
-    parser.add_argument("abcrown_path", help="Path to the ABCrown verifier.")
+    parser.add_argument("--abcrown_path", help="Path to the ABCrown verifier.")
     
     # Add optional argument for specifying the number of verification instances (default: 10)
     parser.add_argument("--size", type=int, default=10, help="Number of verification instances to run for each specification type (default: 10).")

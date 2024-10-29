@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run ABCrown verification on Bloom Filter models.")
     
     # Add argument for the path to the ABCrown verifier
-    parser.add_argument("abcrown_path", help="Path to the ABCrown verifier.")
+    parser.add_argument("--abcrown_path", help="Path to the ABCrown verifier.")
     
     # Add optional argument for specifying the number of instances to run (default is 10)
     parser.add_argument("--size", type=int, default=10, help="Number of verification instances to run (default: 10).")

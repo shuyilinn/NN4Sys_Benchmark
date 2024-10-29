@@ -86,7 +86,7 @@ def main(abcrown_path: str, size: int = 10) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Verify Aurora models with abcrown.")
-    parser.add_argument('abcrown_path', type=str, help="Path to the abcrown verifier.")
+    parser.add_argument('--abcrown_path', type=str, help="Path to the abcrown verifier.")
     parser.add_argument('--size', type=int, default=10, help="Number of verification instances to generate for each configuration (default: 10).")
     args = parser.parse_args()
     main(args.abcrown_path, args.size)

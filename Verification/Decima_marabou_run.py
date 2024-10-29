@@ -46,7 +46,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Marabou verification for Decima models.")
     
     # Add argument for the Marabou path
-    parser.add_argument("marabou_path", help="Path to the Marabou verifier.")
+    parser.add_argument("--marabou_path", help="Path to the Marabou verifier.")
     
     # Add optional argument for specifying the number of verification instances (default: 10)
     parser.add_argument("--size", type=int, default=10, help="Number of verification instances to run (default: 10).")
